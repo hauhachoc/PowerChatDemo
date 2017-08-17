@@ -1,5 +1,7 @@
 package com.example.hautran.myapplication.presentation.channels;
 
+import com.example.hautran.myapplication.models.Room;
+
 /**
  * Created by hautran on 16/08/17.
  */

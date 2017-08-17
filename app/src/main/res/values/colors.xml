@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#80b39b</color>
+    <color name="colorPrimaryDark">#80b39b</color>
     <color name="colorAccent">#FF4081</color>
     <color name="seaBlue">#4077e2</color>
     <color name="lessBlue">#9cc2f4</color>
@@ -10,4 +10,6 @@
     <color name="hint">#7F7F7F</color>
     <color name="dim_color">#B3191919</color>
     <color name="transparent">#00000000</color>
+    <color name="brown">#E6E5EB</color>
+    <color name="bg_blue">#3877DE</color>
 </resources>

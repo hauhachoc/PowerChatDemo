@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerChat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"/>
+
+
+    <android.support.constraint.ConstraintLayout
+        app:layout_constraintTop_toBottomOf="@+id/recyclerChat"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <LinearLayout
+            android:background="@color/brown"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/imgAttach"
+                android:src="@drawable/ic_attach_file"
+                android:background="@color/brown"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_margin="@dimen/medium_padding"
+                android:paddingEnd="@dimen/medium_padding"
+                android:layout_gravity="center"
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/edittext_boder">
+
+                <EditText
+                    android:id="@+id/editWriteMessage"
+                    android:layout_marginStart="@dimen/small_padding"
+                    android:background="@color/white"
+                    style="@style/WhiteEdtTheme"
+                    android:padding="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="7"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:inputType="textLongMessage"
+                    android:maxLines="1"
+                    android:hint="@string/new_message"
+                    android:textColorHint="@color/brown"
+                    android:textSize="@dimen/medidum_text" />
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/btnSend"
+                android:textColor="@color/seaBlue"
+                android:textStyle="bold"
+                android:textSize="@dimen/large_text"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Send"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:padding="6dp" />
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

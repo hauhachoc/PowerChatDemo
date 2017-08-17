@@ -1,6 +1,7 @@
 package com.example.hautran.myapplication.presentation.login;
 
 import com.example.hautran.myapplication.models.User;
+import com.example.hautran.myapplication.utils.Constants;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,7 +22,7 @@ public class LoginPresenter {
         view.onLoading();
         User name = view.getName();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("User").child(name.getUserName());
+        DatabaseReference myRef = database.getReference("User").child(Constants.UID);
 
         myRef.setValue(name, new DatabaseReference.CompletionListener() {
             @Override

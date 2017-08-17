@@ -7,19 +7,20 @@ package com.example.hautran.myapplication.models;
 public class User {
 
     public String userName;
-    public String message;
+    public String group;
+    public Message message;
 
-    public User() {
 
+    public User(){
+        message = new Message();
+        message.idReceiver = "0";
+        message.idSender = "0";
+        message.text = "";
+        message.timestamp = 0;
     }
 
     public User(String name) {
         this.userName = name;
-    }
-
-    public User(String userName, String message) {
-        this.userName = userName;
-        this.message = message;
     }
 
     public String getUserName() {
@@ -28,13 +29,5 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

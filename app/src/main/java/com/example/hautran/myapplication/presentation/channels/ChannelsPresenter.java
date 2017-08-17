@@ -1,5 +1,7 @@
 package com.example.hautran.myapplication.presentation.channels;
 
+import com.example.hautran.myapplication.models.Room;
+import com.example.hautran.myapplication.utils.Constants;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,10 +21,14 @@ public class ChannelsPresenter {
     public void createANewChannel(){
         view.onLoading();
         String channel = view.getKeyToCreateChannel();
+        String idGroup = (Constants.UID + System.currentTimeMillis()).hashCode() + "";
+        Room room = new Room();
+        room.groupInfo.put("name", channel);
+        room.groupInfo.put("admin", Constants.UID);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Channel").child(channel);
+        DatabaseReference myRef = database.getReference("Channel/"+ idGroup);
 
-        myRef.setValue(channel, new DatabaseReference.CompletionListener() {
+        myRef.setValue(room, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 view.onDismissLoading();

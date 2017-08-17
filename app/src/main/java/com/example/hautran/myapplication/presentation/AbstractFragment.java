@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 
+import com.example.hautran.myapplication.ChatApplication;
 import com.example.hautran.myapplication.R;
 import com.example.hautran.myapplication.utils.ShowLog;
 import com.example.hautran.myapplication.utils.Utility;
@@ -490,5 +491,7 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
 
         return orientation;
     }
+
+
 
 }

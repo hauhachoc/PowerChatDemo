@@ -43,6 +43,16 @@ public class ChannelAdapter extends AbstractAdapter {
         return channels;
     }
 
+    public interface setChannelItemClick{
+        public void setChannelItemClickListener(int pos);
+    }
+
+    public void setChannelItemClickListener(setChannelItemClick lis){
+        this.listener = lis;
+    }
+
+    public setChannelItemClick listener;
+
     @Override
     protected RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -55,6 +65,10 @@ public class ChannelAdapter extends AbstractAdapter {
         ChannelsHolder view = (ChannelsHolder) holder;
         String channelTitle = channels.get(position).toString();
         view.tvTitle.setText(channelTitle);
+        view.tvTitle.setOnClickListener(view1 -> {
+            if (listener!=null)
+            listener.setChannelItemClickListener(position);
+        });
     }
 
     @Override

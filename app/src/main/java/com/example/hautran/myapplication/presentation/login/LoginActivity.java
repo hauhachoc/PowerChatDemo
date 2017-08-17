@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatButton;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.example.hautran.myapplication.presentation.BaseActivity;
 import com.example.hautran.myapplication.presentation.channels.AllChannelsActivity;
 import com.example.hautran.myapplication.R;
 import com.example.hautran.myapplication.models.User;
+import com.example.hautran.myapplication.utils.Constants;
 import com.example.hautran.myapplication.widget.DialogHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -76,6 +78,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInAnonymously:success");
                             currentUser = mAuth.getCurrentUser();
+                            Constants.UID = currentUser.getUid();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInAnonymously:failure", task.getException());
@@ -89,7 +92,11 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @OnClick(R.id.btnLogin)
     public void onLogin() {
         if (currentUser != null) {
-            presenter.onLoginClickEvent();
+            if (TextUtils.isEmpty(edtName.getText().toString().trim())) {
+                dialogHelper.alert(null, "Please your name must filled");
+            } else {
+                presenter.onLoginClickEvent();
+            }
         } else {
             loginByFirebaseAnonymously();
         }
@@ -109,7 +116,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public User getName() {
-        User user = new User(edtName.getText().toString(), "hi!!!");
+        User user = new User(edtName.getText().toString());
         return user;
     }
 
@@ -129,6 +136,5 @@ public class LoginActivity extends BaseActivity implements LoginView {
     public void onDismissLoading() {
         dialogHelper.dismissProgress();
     }
-
 
 }

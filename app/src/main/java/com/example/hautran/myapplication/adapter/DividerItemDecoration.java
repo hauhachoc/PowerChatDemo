@@ -1,4 +1,4 @@
-package com.example.hautran.myapplication.presentation.channels;
+package com.example.hautran.myapplication.adapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;

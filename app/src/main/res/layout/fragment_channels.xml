@@ -8,15 +8,24 @@
     android:background="@color/white"
     tools:context="com.example.hautran.myapplication.presentation.login.LoginActivity">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/layoutCreate"
+        android:paddingTop="@dimen/small_text"
+        android:layout_margin="@dimen/medidum_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/edtCreateChannel"
-            android:layout_width="267dp"
+            android:textSize="@dimen/medidum_text"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="8"
+            android:background="@drawable/bg_white_btn"
+            android:padding="4dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:hint="@string/create_channel"
@@ -24,7 +33,10 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tvCreate"
-            android:layout_width="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
@@ -37,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/edtCreateChannel"
             app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reChannels"

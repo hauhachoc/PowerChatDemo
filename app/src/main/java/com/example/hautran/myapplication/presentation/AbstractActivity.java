@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.example.hautran.myapplication.ChatApplication;
 import com.example.hautran.myapplication.R;
 import com.example.hautran.myapplication.utils.ShowLog;
 import com.example.hautran.myapplication.widget.CustomProgressHorizontalView;
@@ -134,6 +135,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onStop();
         ShowLog.showLogInfo(TAG, " onStop ============= " + this.getClass().getSimpleName());
+//        ChatApplication.getFirebaseUserInstance().delete();
     }
 
     @Override
@@ -459,5 +461,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
          */
         public void onTouchOutside(View view, MotionEvent event);
     }
+
 
 }
