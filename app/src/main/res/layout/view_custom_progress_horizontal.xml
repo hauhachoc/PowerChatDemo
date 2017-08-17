@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_progress_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#40000000"
+    android:gravity="center">
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/loadingBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:indeterminate="true" />
+
+</RelativeLayout>

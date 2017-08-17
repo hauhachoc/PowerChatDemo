@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1009200262774",
+    "firebase_url": "https://powerchatdemo.firebaseio.com",
+    "project_id": "powerchatdemo",
+    "storage_bucket": "powerchatdemo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009200262774:android:00e1fa7c0486456c",
+        "android_client_info": {
+          "package_name": "com.example.hautran.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009200262774-7vrtse9p9jvlj0uvtl201mlpjkhuk6um.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hautran.myapplication",
+            "certificate_hash": "51b0cc31732d783f3c86a1dc57ebf72d57cb38af"
+          }
+        },
+        {
+          "client_id": "1009200262774-k4p0g2iv3m16tfmt56oe0bgo2f3llhc0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLdZ8N8ILT5GfOfNVpIzui7ccr-qOmQxE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009200262774-k4p0g2iv3m16tfmt56oe0bgo2f3llhc0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

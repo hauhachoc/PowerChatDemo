@@ -1,0 +1,8 @@
+<resources>
+    <integer name="shadow_dy">8</integer>
+    <integer name="shadow_radius">8</integer>
+    <item name="letter_spacing" type="integer" format="float">1.2</item>
+    <item name="letter_spacing_large"  type="integer" format="float">1.4</item>
+    <item name="letter_spacing_xlarge"  type="integer" format="float">1.7</item>
+    <integer name="progress_dialog_animation_duration">100</integer>
+</resources>

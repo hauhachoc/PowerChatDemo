@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_login">50dp</dimen>
+
+
+    <!--//padding-->
+    <dimen name="small_padding">4dp</dimen>
+    <dimen name="medium_padding">8dp</dimen>
+    <!--text size-->
+    <dimen name="small_text">12dp</dimen>
+    <dimen name="medidum_text">16dp</dimen>
+    <dimen name="large_text">18dp</dimen>
+</resources>

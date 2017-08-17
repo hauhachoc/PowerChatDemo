@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PowerChatDemo</string>
+
+    <!--//login-->
+    <string name="hint_input_your_name">Input your name</string>
+    <string name="login">Login</string>
+
+    <!--all channel-->
+    <string name="create_channel">Create a New channel</string>
+    <string name="create">Create</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

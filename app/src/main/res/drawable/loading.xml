@@ -1,0 +1,52 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myprogress"
+    android:oneshot="false">
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_1"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_2"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_3"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_4"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_5"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_6"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_7"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_8"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_9"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_10"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_11"
+            android:scaleGravity="center"/>
+    </item>
+    <item  android:duration="@integer/progress_dialog_animation_duration" >
+        <scale android:drawable="@drawable/ic_progress_dialog_12"
+            android:scaleGravity="center"/>
+    </item>
+</animation-list>
