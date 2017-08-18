@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +20,9 @@ import com.example.hautran.myapplication.models.Consersation;
 import com.example.hautran.myapplication.models.Message;
 import com.example.hautran.myapplication.models.Room;
 import com.example.hautran.myapplication.presentation.AbstractFragment;
+import com.example.hautran.myapplication.presenter.MessagePresenter;
 import com.example.hautran.myapplication.utils.Constants;
+import com.example.hautran.myapplication.views.MessageView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +39,7 @@ import butterknife.OnClick;
  * Created by hautran on 17/08/17.
  */
 
-public class GroupChatFragment extends AbstractFragment {
+public class MessageFragment extends AbstractFragment implements MessageView {
 
     @BindView(R.id.editWriteMessage)
     EditText editWriteMessage;
@@ -51,7 +54,7 @@ public class GroupChatFragment extends AbstractFragment {
     ImageButton imgAttach;
 
 
-    private final String TAG = "GroupChatFragment";
+    private final String TAG = "MessageFragment";
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     public static final int VIEW_TYPE_USER_MESSAGE = 0;
@@ -61,6 +64,7 @@ public class GroupChatFragment extends AbstractFragment {
     private ArrayList<CharSequence> idFriend;
     private Consersation consersation;
     private Room room;
+    private MessagePresenter presenter;
 
     @Override
     protected void initTittleBar() {
@@ -86,6 +90,7 @@ public class GroupChatFragment extends AbstractFragment {
 
     @Override
     protected void initViewFragment() {
+        presenter = new MessagePresenter(this);
         Bundle extras = getArguments();
         if (extras != null) {
             room = extras.getParcelable("nameOfRoom");
@@ -140,10 +145,6 @@ public class GroupChatFragment extends AbstractFragment {
         recyclerChat.setAdapter(adapter);
     }
 
-    @Override
-    public void moveToNextScreen() {
-
-    }
 
     class ListMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -214,19 +215,40 @@ public class GroupChatFragment extends AbstractFragment {
     @OnClick(R.id.btnSend)
     public void onSendMessage() {
         String content = editWriteMessage.getText().toString().trim();
-        if (content.length() > 0) {
-            editWriteMessage.setText("");
-            Message newMessage = new Message();
-            newMessage.text = content;
-            newMessage.idSender = Constants.UID;
-            newMessage.idReceiver = roomId;
-            newMessage.timestamp = System.currentTimeMillis();
-            FirebaseDatabase.getInstance().getReference().child("message/" + roomId).push().setValue(newMessage);
+        if (!TextUtils.isEmpty(content.trim())){
+            presenter.onSendMessageEvent();
         }
     }
 
     @OnClick(R.id.imgAttach)
     public void onSendFile() {
 
+    }
+
+    @Override
+    public void moveToNextScreen() {
+
+    }
+
+    @Override
+    public String getIdRoom() {
+        return roomId;
+    }
+
+    @Override
+    public Message getMessageData() {
+        String content = editWriteMessage.getText().toString().trim();
+        Message newMessage = new Message();
+        newMessage.text = content;
+        newMessage.idSender = Constants.UID;
+        newMessage.idReceiver = roomId;
+        newMessage.timestamp = System.currentTimeMillis();
+
+        return newMessage;
+    }
+
+    @Override
+    public void onSendMessageSuccess() {
+        editWriteMessage.setText("");
     }
 }

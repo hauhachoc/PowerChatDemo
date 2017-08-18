@@ -1,4 +1,4 @@
-package com.example.hautran.myapplication.presentation.login;
+package com.example.hautran.myapplication.views;
 
 import com.example.hautran.myapplication.models.User;
 

@@ -3,24 +3,27 @@ package com.example.hautran.myapplication.presentation.channels;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
 
 import com.example.hautran.myapplication.R;
 import com.example.hautran.myapplication.adapter.ChannelAdapter;
 import com.example.hautran.myapplication.adapter.DividerItemDecoration;
 import com.example.hautran.myapplication.models.Room;
 import com.example.hautran.myapplication.presentation.AbstractFragment;
-import com.example.hautran.myapplication.presentation.chat.GroupChatFragment;
+import com.example.hautran.myapplication.presentation.chat.MessageFragment;
+import com.example.hautran.myapplication.presenter.ChannelsPresenter;
 import com.example.hautran.myapplication.utils.Constants;
+import com.example.hautran.myapplication.views.ChannelsView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,8 +68,6 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
         actionBar.setDisplayShowHomeEnabled(false);
     }
 
-
-
     @Override
     protected int getViewLayoutId() {
         return R.layout.fragment_channels;
@@ -75,10 +76,6 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
     @Override
     protected void initViewFragment() {
         room=new Room();
-//        for (String id : listIDChoose) {
-//            room.member.add(id);
-//        }
-
         idGroup = (Constants.UID + System.currentTimeMillis()).hashCode() + "";
         presenter = new ChannelsPresenter(this);
         adapter = new ChannelAdapter(mActivity);
@@ -102,7 +99,11 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
 
     @Override
     public void onCreateChannelSuccess() {
+        adapter.setData(channelsData);
+        adapter.notifyDataSetChanged();
         dialogHelper.alert(null, "Created a New channel");
+        edtCreateChannel.setText(null);
+        Log.d(TAG, "listArrSize:"+channelsData.size());
     }
 
     @Override
@@ -122,7 +123,13 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
 //
     @OnClick(R.id.tvCreate)
     public void createChannelClick() {
-        presenter.createANewChannel();
+        if (TextUtils.isEmpty(edtCreateChannel.getText().toString().trim())){
+            dialogHelper.alert(null, "The new channel must filled");
+        }else if (edtCreateChannel.getText().toString().trim().length()<5){
+            dialogHelper.alert(null, "The new channel title must least 5 characters");
+        }else {
+            presenter.createANewChannel();
+        }
     }
 
     private void getAllChannelsData() {
@@ -136,16 +143,17 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 channelsData.clear();
+                adapter.clearData();
+                rooms.clear();
+                idRooms.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Room post = postSnapshot.getValue(Room.class);
                     channelsData.add(post.groupInfo.get("name"));
                     rooms.add(post);
                     idRooms.add(postSnapshot.getKey().toString());
-                    Log.e(TAG, post.groupInfo.get("name"));
-                    Log.e(TAG, postSnapshot.getKey().toString());
+                    Log.e(TAG, "name:"+post.groupInfo.get("name")+
+                            " - idRoom:"+postSnapshot.getKey().toString());
                 }
-                adapter.setData(channelsData);
-                adapter.notifyDataSetChanged();
                 onDismissLoading();
             }
 
@@ -156,14 +164,28 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
                 onDismissLoading();
             }
         });
+        adapter.setData(channelsData);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void setChannelItemClickListener(int position) {
-        Log.d(TAG, "pos:"+position);
         Bundle bundle = new Bundle();
         bundle.putParcelable("nameOfRoom", (Parcelable) rooms.get(position));
         bundle.putString("idRooms",idRooms.get(position));
-        addToBackStack(new GroupChatFragment(), bundle);
+        addToBackStack(new MessageFragment(), bundle);
+        Log.d(TAG, "pos:"+rooms.get(position).toString());
+        Log.d(TAG, "click:"+ position + "-idRoom:"+ idRooms.get(position) );
+    }
+
+    @Override
+    public void setChannelDeleteClickListener(int position) {
+        presenter.onDeleteChannel(position, idRooms);
+    }
+
+    @Override
+    public void onDeleteChannelSuccess() {
+        adapter.notifyDataSetChanged();
+        dialogHelper.alert("","Deleted");
     }
 }

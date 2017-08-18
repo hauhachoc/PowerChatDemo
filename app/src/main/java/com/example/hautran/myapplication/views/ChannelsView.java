@@ -1,4 +1,4 @@
-package com.example.hautran.myapplication.presentation.channels;
+package com.example.hautran.myapplication.views;
 
 import com.example.hautran.myapplication.models.Room;
 
@@ -10,6 +10,7 @@ public interface ChannelsView {
 
     public String getKeyToCreateChannel();
     public void onCreateChannelSuccess();
+    public void onDeleteChannelSuccess();
     public void onCreateChannelFailed(String mess);
     public void onLoading();
     public void onDismissLoading();

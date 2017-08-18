@@ -11,11 +11,6 @@ public class CustomSharedPreferences {
     private static Context appContext;
 
     public static final String USER_TAG = "user_tag";
-    public static final String ALL_RESTRICTION = "all_restriction";
-    public static final String GOALS = "goals";
-    public static final String MY_GOALS = "my_goals";
-    public static final String ACCOUNT = "account";
-    public static final String MEAL_DATE = "meal_date";
 
     /**
      * Constructor. Please create new object before using setter and getter

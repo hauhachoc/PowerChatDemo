@@ -1,7 +1,8 @@
-package com.example.hautran.myapplication.presentation.login;
+package com.example.hautran.myapplication.presenter;
 
 import com.example.hautran.myapplication.models.User;
 import com.example.hautran.myapplication.utils.Constants;
+import com.example.hautran.myapplication.views.LoginView;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -14,7 +15,7 @@ public class LoginPresenter {
 
     private LoginView view;
 
-    LoginPresenter(LoginView v) {
+    public LoginPresenter(LoginView v) {
         this.view = v;
     }
 
