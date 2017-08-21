@@ -21,4 +21,15 @@
         android:text="a"
         android:textColor="#ffffff" />
 
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_marginEnd="5dp"
+        android:visibility="visible"
+        android:src="@drawable/ic_attach_file"
+        android:scaleType="centerCrop"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textContentUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>

@@ -6,4 +6,5 @@ package com.example.hautran.myapplication.utils;
 
 public class Constants {
     public static String UID = "";
+    public static int PICK_IMAGE_REQUEST = 112;
 }

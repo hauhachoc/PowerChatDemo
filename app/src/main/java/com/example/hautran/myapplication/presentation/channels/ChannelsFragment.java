@@ -3,7 +3,6 @@ package com.example.hautran.myapplication.presentation.channels;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatEditText;
@@ -22,8 +21,6 @@ import com.example.hautran.myapplication.presentation.chat.MessageFragment;
 import com.example.hautran.myapplication.presenter.ChannelsPresenter;
 import com.example.hautran.myapplication.utils.Constants;
 import com.example.hautran.myapplication.views.ChannelsView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +35,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChannelsFragment extends AbstractFragment implements ChannelsView, ChannelAdapter.setChannelItemClick{
+public class ChannelsFragment extends AbstractFragment implements ChannelsView, ChannelAdapter.setChannelItemClick {
 
     @BindView(R.id.edtCreateChannel)
     AppCompatEditText edtCreateChannel;
@@ -75,7 +72,7 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
 
     @Override
     protected void initViewFragment() {
-        room=new Room();
+        room = new Room();
         idGroup = (Constants.UID + System.currentTimeMillis()).hashCode() + "";
         presenter = new ChannelsPresenter(this);
         adapter = new ChannelAdapter(mActivity);
@@ -103,7 +100,7 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
         adapter.notifyDataSetChanged();
         dialogHelper.alert(null, "Created a New channel");
         edtCreateChannel.setText(null);
-        Log.d(TAG, "listArrSize:"+channelsData.size());
+        Log.d(TAG, "listArrSize:" + channelsData.size());
     }
 
     @Override
@@ -120,14 +117,14 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
     public void onDismissLoading() {
         dialogHelper.dismissProgress();
     }
-//
+
     @OnClick(R.id.tvCreate)
     public void createChannelClick() {
-        if (TextUtils.isEmpty(edtCreateChannel.getText().toString().trim())){
+        if (TextUtils.isEmpty(edtCreateChannel.getText().toString().trim())) {
             dialogHelper.alert(null, "The new channel must filled");
-        }else if (edtCreateChannel.getText().toString().trim().length()<5){
+        } else if (edtCreateChannel.getText().toString().trim().length() < 5) {
             dialogHelper.alert(null, "The new channel title must least 5 characters");
-        }else {
+        } else {
             presenter.createANewChannel();
         }
     }
@@ -151,8 +148,8 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
                     channelsData.add(post.groupInfo.get("name"));
                     rooms.add(post);
                     idRooms.add(postSnapshot.getKey().toString());
-                    Log.e(TAG, "name:"+post.groupInfo.get("name")+
-                            " - idRoom:"+postSnapshot.getKey().toString());
+                    Log.e(TAG, "name:" + post.groupInfo.get("name") +
+                            " - idRoom:" + postSnapshot.getKey().toString());
                 }
                 onDismissLoading();
             }
@@ -172,10 +169,8 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
     public void setChannelItemClickListener(int position) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("nameOfRoom", (Parcelable) rooms.get(position));
-        bundle.putString("idRooms",idRooms.get(position));
+        bundle.putString("idRooms", idRooms.get(position));
         addToBackStack(new MessageFragment(), bundle);
-        Log.d(TAG, "pos:"+rooms.get(position).toString());
-        Log.d(TAG, "click:"+ position + "-idRoom:"+ idRooms.get(position) );
     }
 
     @Override
@@ -186,6 +181,6 @@ public class ChannelsFragment extends AbstractFragment implements ChannelsView, 
     @Override
     public void onDeleteChannelSuccess() {
         adapter.notifyDataSetChanged();
-        dialogHelper.alert("","Deleted");
+        dialogHelper.alert("", "Deleted");
     }
 }

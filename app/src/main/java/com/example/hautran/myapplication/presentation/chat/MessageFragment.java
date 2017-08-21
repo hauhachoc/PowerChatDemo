@@ -1,20 +1,30 @@
 package com.example.hautran.myapplication.presentation.chat;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.hautran.myapplication.R;
 import com.example.hautran.myapplication.models.Consersation;
 import com.example.hautran.myapplication.models.Message;
@@ -29,6 +39,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -65,6 +77,7 @@ public class MessageFragment extends AbstractFragment implements MessageView {
     private Consersation consersation;
     private Room room;
     private MessagePresenter presenter;
+    private String pictureString = "";
 
     @Override
     protected void initTittleBar() {
@@ -116,6 +129,7 @@ public class MessageFragment extends AbstractFragment implements MessageView {
                     newMessage.idReceiver = (String) mapMessage.get("idReceiver");
                     newMessage.text = (String) mapMessage.get("text");
                     newMessage.timestamp = (long) mapMessage.get("timestamp");
+                    newMessage.picture = (String) mapMessage.get("picture");
                     consersation.getListMessageData().add(newMessage);
                     adapter.notifyDataSetChanged();
                     layoutManager.scrollToPosition(consersation.getListMessageData().size() - 1);
@@ -172,10 +186,43 @@ public class MessageFragment extends AbstractFragment implements MessageView {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (holder instanceof ItemMessageFriendHolder) {
+                RecyclerView.ViewHolder viewHolder = (ItemMessageFriendHolder) holder;
+                ImageView imgPic = viewHolder.itemView.findViewById(R.id.picture);
+                TextView tvText = viewHolder.itemView.findViewById(R.id.textContentFriend);
                 ((ItemMessageFriendHolder) holder).txtContent.setText(consersation.getListMessageData().get(position).text);
-
-            } else if (holder instanceof ItemMessageUserHolder) {
+                if (consersation.getListMessageData().get(position).getPicture()==null){
+                    tvText.setVisibility(View.VISIBLE);
+                    imgPic.setVisibility(View.GONE);
+                }else
+                if (!TextUtils.isEmpty(consersation.getListMessageData().get(position).getPicture().trim())) {
+                    Bitmap bitmap = decodeBase64(consersation.getListMessageData().get(position).getPicture());
+                    imgPic.setImageBitmap(bitmap);
+                    imgPic.setVisibility(View.VISIBLE);
+                    tvText.setVisibility(View.GONE);
+                } else {
+                    tvText.setVisibility(View.VISIBLE);
+                    imgPic.setVisibility(View.GONE);
+                }
+                Log.i(TAG, "txt: " + consersation.getListMessageData().get(position).text + ",pic: " + consersation.getListMessageData().get(position).getPicture());
+            } else {
+                RecyclerView.ViewHolder viewHolder = (ItemMessageUserHolder) holder;
+                ImageView imgPic = viewHolder.itemView.findViewById(R.id.picture);
+                TextView tvText = viewHolder.itemView.findViewById(R.id.textContentUser);
                 ((ItemMessageUserHolder) holder).txtContent.setText(consersation.getListMessageData().get(position).text);
+                if (consersation.getListMessageData().get(position).getPicture()==null){
+                    tvText.setVisibility(View.VISIBLE);
+                    imgPic.setVisibility(View.GONE);
+                }else
+                if (!TextUtils.isEmpty(consersation.getListMessageData().get(position).getPicture().trim())) {
+                    imgPic.setVisibility(View.VISIBLE);
+                    tvText.setVisibility(View.GONE);
+                    Bitmap bitmap = decodeBase64(consersation.getListMessageData().get(position).getPicture());
+                    imgPic.setImageBitmap(bitmap);
+                } else {
+                    tvText.setVisibility(View.VISIBLE);
+                    imgPic.setVisibility(View.GONE);
+                }
+                Log.i(TAG, "txt: " + consersation.getListMessageData().get(position).text + ",pic: " + consersation.getListMessageData().get(position).getPicture());
             }
         }
 
@@ -192,37 +239,51 @@ public class MessageFragment extends AbstractFragment implements MessageView {
                 return 0;
             }
         }
+
+        public Bitmap decodeBase64(String encodedImage) {
+            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            return decodedByte;
+        }
     }
 
     class ItemMessageUserHolder extends RecyclerView.ViewHolder {
+
         public TextView txtContent;
+        public ImageView imgPic;
 
         public ItemMessageUserHolder(View itemView) {
             super(itemView);
             txtContent = (TextView) itemView.findViewById(R.id.textContentUser);
+            imgPic = (ImageView) itemView.findViewById(R.id.picture);
         }
     }
 
     class ItemMessageFriendHolder extends RecyclerView.ViewHolder {
         public TextView txtContent;
+        public ImageView imgPic;
 
         public ItemMessageFriendHolder(View itemView) {
             super(itemView);
             txtContent = (TextView) itemView.findViewById(R.id.textContentFriend);
+            imgPic = (ImageView) itemView.findViewById(R.id.picture);
         }
     }
 
     @OnClick(R.id.btnSend)
     public void onSendMessage() {
         String content = editWriteMessage.getText().toString().trim();
-        if (!TextUtils.isEmpty(content.trim())){
+        if (!TextUtils.isEmpty(content.trim())) {
             presenter.onSendMessageEvent();
         }
     }
 
     @OnClick(R.id.imgAttach)
     public void onSendFile() {
-
+        Intent i = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, Constants.PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -239,10 +300,13 @@ public class MessageFragment extends AbstractFragment implements MessageView {
     public Message getMessageData() {
         String content = editWriteMessage.getText().toString().trim();
         Message newMessage = new Message();
-        newMessage.text = content;
-        newMessage.idSender = Constants.UID;
-        newMessage.idReceiver = roomId;
-        newMessage.timestamp = System.currentTimeMillis();
+        newMessage.setText(content);
+        newMessage.setIdSender(Constants.UID);
+        newMessage.setIdReceiver(roomId);
+        newMessage.setTimestamp(System.currentTimeMillis());
+        if (!TextUtils.isEmpty(pictureString)){
+            newMessage.setPicture(pictureString);
+        }
 
         return newMessage;
     }
@@ -250,5 +314,57 @@ public class MessageFragment extends AbstractFragment implements MessageView {
     @Override
     public void onSendMessageSuccess() {
         editWriteMessage.setText("");
+        pictureString = "";
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.PICK_IMAGE_REQUEST
+                && resultCode == Activity.RESULT_OK) {
+            String path = getPathFromCameraData(data, this.getActivity());
+            Log.i(TAG, "Path: " + path);
+            if (path != null) {
+//                Drawable d = Drawable.createFromPath(path);
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                if (bitmap != null) {
+
+                    bitmap = getResizedBitmap(bitmap, 320, 240);
+//                    imgAttach.setImageBitmap(bitmap);
+                    Log.i(TAG, "Path: " + bitmap);
+                    pictureString = convertBitmapToBase64(bitmap);
+                    presenter.sendImageFile();
+                }
+
+            }
+        }
+    }
+
+    public String convertBitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        return encoded;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
+
+
 }

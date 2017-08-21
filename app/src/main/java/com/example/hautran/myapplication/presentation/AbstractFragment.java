@@ -3,9 +3,14 @@ package com.example.hautran.myapplication.presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +32,8 @@ import com.example.hautran.myapplication.utils.ShowLog;
 import com.example.hautran.myapplication.utils.Utility;
 import com.example.hautran.myapplication.views.BaseView;
 import com.example.hautran.myapplication.widget.DialogHelper;
+
+import java.io.ByteArrayOutputStream;
 
 import butterknife.ButterKnife;
 
@@ -492,6 +499,17 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
         return orientation;
     }
 
+    public static String getPathFromCameraData(Intent data, Context context) {
+        Uri selectedImage = data.getData();
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(selectedImage,
+                filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+        return picturePath;
+    }
 
 
 }
